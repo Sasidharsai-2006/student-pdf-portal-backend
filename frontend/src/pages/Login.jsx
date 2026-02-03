@@ -39,6 +39,13 @@ function Login() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
+        <div className="mb-6 flex justify-center">
+          <img
+            src="/studysphere-logo.png"
+            alt="StudySphere Logo"
+            className="h-20 w-20 rounded-full object-cover"
+          />
+        </div>
         <h2 className="mb-6 text-center text-3xl font-bold text-gray-800">
           Student Login
         </h2>
