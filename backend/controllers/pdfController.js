@@ -96,11 +96,12 @@ const deletePdf = async (req, res) => {
       return res.status(403).json({ message: 'User not authorized to delete this PDF' });
     }
 
-    // Extract Key from URL
-    // URL: https://bucket.s3.region.amazonaws.com/uploads/filename
-    const bucketUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/`;
-    const key = pdf.url.replace(bucketUrl, '');
+    // Extract Key from URL safely
+    // Handles cases where URL characters are encoded (e.g., spaces as %20)
+    const urlParts = new URL(pdf.url);
+    const key = decodeURIComponent(urlParts.pathname.substring(1)); // Remove leading '/'
 
+    console.log(`[DELETE] Original URL: ${pdf.url}`);
     console.log(`[DELETE] Derived S3 Key: ${key}`);
 
     // Delete from S3
