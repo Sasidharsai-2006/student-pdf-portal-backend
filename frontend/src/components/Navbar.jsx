@@ -13,8 +13,9 @@ function Navbar() {
   return (
     <nav className="bg-blue-600 p-4 text-white shadow-md">
       <div className="container mx-auto flex items-center justify-between">
-        <Link to="/" className="text-xl font-bold">
-          Student PDF Portal
+        <Link to="/" className="flex items-center gap-2 text-xl font-bold">
+          <img src="/studysphere-logo.png" alt="Logo" className="h-10 w-10 rounded-full object-cover" />
+          <span>StudySphere</span>
         </Link>
         <div>
           {user ? (
