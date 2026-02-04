@@ -48,12 +48,31 @@ const seedSubjects = async () => {
       description: 'Systematic application of engineering to software',
       order: 5,
     },
+    {
+      name: 'Generative AI',
+      code: 'GEN-AI',
+      description: 'Creating new content using machine learning models',
+      order: 6,
+    },
+    {
+      name: 'DevOps',
+      code: 'DEVOPS',
+      description: 'Practices combining software development and IT operations',
+      order: 7,
+    },
   ];
 
   try {
-    await Subject.deleteMany(); // Clear existing subjects
-    await Subject.insertMany(subjects);
-    console.log('Data Imported!');
+    for (const subject of subjects) {
+      const subjectExists = await Subject.findOne({ code: subject.code });
+      if (!subjectExists) {
+        await Subject.create(subject);
+        console.log(`Added subject: ${subject.name}`);
+      } else {
+        console.log(`Subject already exists: ${subject.name}`);
+      }
+    }
+    console.log('Seeding Completed!');
     process.exit();
   } catch (error) {
     console.error(`${error}`);
