@@ -49,18 +49,18 @@ function SubjectDetail() {
       ) : (
         <div className="grid grid-cols-1 gap-4">
           {pdfs.map((pdf) => (
-            <div key={pdf._id} className="flex items-center justify-between rounded-lg bg-white p-4 shadow transition hover:shadow-md">
-              <div>
+            <div key={pdf._id} className="flex flex-col items-start gap-4 rounded-lg bg-white p-4 shadow transition hover:shadow-md sm:flex-row sm:items-center sm:justify-between">
+              <div className="w-full text-center sm:text-left">
                 <h3 className="text-lg font-semibold text-gray-800">{pdf.title}</h3>
                 <p className="text-sm text-gray-500">Uploaded by: {pdf.user?.name || 'Unknown'}</p>
                 <p className="text-xs text-gray-400">{new Date(pdf.createdAt).toLocaleDateString()}</p>
               </div>
-              <div className="flex space-x-2">
+              <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
                 <a
                   href={pdf.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-bold text-white hover:bg-blue-600"
+                  className="w-full rounded-lg bg-blue-500 px-4 py-2 text-center text-sm font-bold text-white hover:bg-blue-600 sm:w-auto"
                 >
                   Download
                 </a>
@@ -75,7 +75,7 @@ function SubjectDetail() {
                       }
                     }
                   }}
-                  className="rounded-lg bg-red-500 px-4 py-2 text-sm font-bold text-white hover:bg-red-600"
+                  className="w-full rounded-lg bg-red-500 px-4 py-2 text-center text-sm font-bold text-white hover:bg-red-600 sm:w-auto"
                 >
                   Delete
                 </button>

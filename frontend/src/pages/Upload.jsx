@@ -82,8 +82,8 @@ function Upload() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 p-6">
-      <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-xl">
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4 sm:p-6">
+      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl sm:p-8">
         <h2 className="mb-6 text-2xl font-bold text-gray-800 text-center">Upload PDF Material</h2>
 
         {message && (

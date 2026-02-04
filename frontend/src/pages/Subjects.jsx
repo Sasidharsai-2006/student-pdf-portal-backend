@@ -48,7 +48,7 @@ function Subjects() {
         Browse Subjects
       </h1>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {subjects.map((subject) => (
           <Link
             to={`/subject/${subject._id}`}
@@ -56,8 +56,8 @@ function Subjects() {
             key={subject._id}
             className={`flex h-40 transform flex-col items-center justify-center rounded-xl p-6 text-white shadow-lg transition hover:scale-105 hover:shadow-xl ${subject.color}`}
           >
-            <h2 className="text-2xl font-bold">{subject.code}</h2>
-            <p className="mt-2 text-lg font-medium">{subject.name}</p>
+            <h2 className="text-center text-2xl font-bold">{subject.code}</h2>
+            <p className="mt-2 text-center text-lg font-medium">{subject.name}</p>
           </Link>
         ))}
       </div>
