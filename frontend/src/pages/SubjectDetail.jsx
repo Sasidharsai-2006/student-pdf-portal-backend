@@ -57,6 +57,14 @@ function SubjectDetail() {
                 <p className="text-xs text-gray-400">{new Date(pdf.createdAt).toLocaleDateString()}</p>
               </div>
               <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+                <a
+                  href={pdf.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full rounded-lg bg-green-500 px-4 py-2 text-center text-sm font-bold text-white hover:bg-green-600 sm:w-auto"
+                >
+                  View
+                </a>
                 <button
                   onClick={async () => {
                     try {
