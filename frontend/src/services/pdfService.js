@@ -49,6 +49,29 @@ const getPdfsBySubject = async (subjectId) => {
   }
 };
 
+// Get presigned download URL
+const getDownloadUrl = async (id) => {
+  const userStr = localStorage.getItem('user');
+  const user = userStr ? JSON.parse(userStr) : null;
+  const token = user?.token;
+
+  if (!token) throw new Error('Not authorized, no token');
+
+  const response = await fetch(API_URL + '/' + id + '/download', {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (response.ok) {
+    return await response.json();
+  } else {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || `Error ${response.status}: Failed to get download link`);
+  }
+};
+
 // Delete PDF
 const deletePdf = async (id) => {
   const userStr = localStorage.getItem('user');
@@ -75,6 +98,7 @@ const deletePdf = async (id) => {
 const pdfService = {
   uploadPdf,
   getPdfsBySubject,
+  getDownloadUrl,
   deletePdf,
 };
 

@@ -32,6 +32,10 @@ router.post('/', protect, (req, res, next) => {
 // Get PDFs for a specific subject
 router.get('/:subjectId', protect, getPdfsBySubject);
 
+// Get presigned download URL for a specific PDF
+const { getDownloadUrl } = require('../controllers/pdfController');
+router.get('/:id/download', protect, getDownloadUrl);
+
 // Delete PDF
 const { deletePdf } = require('../controllers/pdfController');
 router.delete('/:id', protect, deletePdf);

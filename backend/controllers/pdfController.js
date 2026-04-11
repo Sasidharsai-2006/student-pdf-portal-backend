@@ -69,6 +69,36 @@ const { DeleteObjectCommand } = require('@aws-sdk/client-s3');
 const { s3 } = require('../config/s3');
 
 // ... existing code ...
+const { GetObjectCommand } = require('@aws-sdk/client-s3');
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
+
+// @desc    Get downloadable presigned URL for a PDF
+// @route   GET /api/pdfs/:id/download
+// @access  Private
+const getDownloadUrl = async (req, res) => {
+  try {
+    const pdf = await Pdf.findById(req.params.id);
+    if (!pdf) {
+      return res.status(404).json({ message: 'PDF not found' });
+    }
+
+    const urlParts = new URL(pdf.url);
+    const key = decodeURIComponent(urlParts.pathname.substring(1));
+
+    // Force the browser to download the file instead of opening it
+    const command = new GetObjectCommand({
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: key,
+      ResponseContentDisposition: `attachment; filename="${pdf.fileName || pdf.title + '.pdf'}"`
+    });
+
+    const signedUrl = await getSignedUrl(s3, command, { expiresIn: 60 });
+    res.status(200).json({ downloadUrl: signedUrl });
+  } catch (error) {
+    console.error('[DOWNLOAD] Controller Error:', error);
+    res.status(500).json({ message: 'Server Error: ' + error.message });
+  }
+};
 
 // @desc    Delete a PDF
 // @route   DELETE /api/pdfs/:id
@@ -132,5 +162,6 @@ const deletePdf = async (req, res) => {
 module.exports = {
   uploadPdf,
   getPdfsBySubject,
+  getDownloadUrl,
   deletePdf,
 };

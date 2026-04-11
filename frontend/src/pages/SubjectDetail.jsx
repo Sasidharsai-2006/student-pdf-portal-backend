@@ -10,6 +10,7 @@ function SubjectDetail() {
   const [subjectName, setSubjectName] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [downloadingId, setDownloadingId] = useState(null);
 
   useEffect(() => {
     // We need to fetch subject name (optional) and PDFs
@@ -56,14 +57,26 @@ function SubjectDetail() {
                 <p className="text-xs text-gray-400">{new Date(pdf.createdAt).toLocaleDateString()}</p>
               </div>
               <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-                <a
-                  href={pdf.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full rounded-lg bg-blue-500 px-4 py-2 text-center text-sm font-bold text-white hover:bg-blue-600 sm:w-auto"
+                <button
+                  onClick={async () => {
+                    try {
+                      setDownloadingId(pdf._id);
+                      const data = await pdfService.getDownloadUrl(pdf._id);
+                      // This forces the download instead of opening a new tab
+                      window.location.href = data.downloadUrl;
+                    } catch (err) {
+                      alert('Download failed: ' + err.message);
+                      // Fallback opening
+                      window.open(pdf.url, '_blank');
+                    } finally {
+                      setDownloadingId(null);
+                    }
+                  }}
+                  disabled={downloadingId === pdf._id}
+                  className="w-full rounded-lg bg-blue-500 px-4 py-2 text-center text-sm font-bold text-white hover:bg-blue-600 sm:w-auto disabled:opacity-50"
                 >
-                  Download
-                </a>
+                  {downloadingId === pdf._id ? 'Downloading...' : 'Download'}
+                </button>
                 <button
                   onClick={async () => {
                     if (window.confirm('Are you sure you want to delete this PDF?')) {
